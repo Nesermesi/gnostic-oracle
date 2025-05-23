@@ -1,1 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Gnostic Cosmic State</title>
+    <style>
+        body { font-family: serif; background: #111; color: #eee; padding: 2em; }
+        h1 { color: #bfa; }
+        .aeon { border: 1px solid #444; margin: 1em 0; padding: 1em; border-radius: 8px; background: #222; }
+        .flux { font-weight: bold; }
+        .memories { font-size: 0.9em; color: #aaa; }
+        button { padding: 0.5em 1em; background: #4a4; color: #111; border: none; border-radius: 5px; cursor: pointer; }
+        button:hover { background: #6c6; }
+    </style>
+</head>
+<body>
+    <h1>Cosmic State of the Aeons</h1>
+    <p>Gnosis: {{ report.gnosis }} | Pleroma: {{ report.pleroma_percent }}%</p>
 
+    {% for aeon in report.aeons %}
+        <div class="aeon">
+            <h2>{{ aeon.name }}</h2>
+            <p>Flux: <span class="flux">{{ aeon.flux }}</span></p>
+            <p>Memories ({{ aeon.memories_count }}):</p>
+            <ul class="memories">
+                {% for memory in aeon.memories %}
+                    <li>{{ memory }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endfor %}
+
+    <form method="post" action="{{ url_for('advance') }}">
+        <button type="submit">Advance Cosmic Cycle</button>
+    </form>
+</body>
+</html>
