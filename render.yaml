@@ -1,7 +1,11 @@
 services:
   - type: web
     name: gnostic-oracle
-    env: python-3.11.8
-    buildCommand: ""
-    startCommand: gunicorn app:app
+    runtime: python
+    repo: https://github.com/Nesermesi/gnostic-oracle
     plan: free
+    region: frankfurt
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app
+    autoDeploy: true
+version: "1"
