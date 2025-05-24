@@ -1,30 +1,34 @@
-from flask import Flask, jsonify
-from flask_cors import CORS  # Essential!
+from flask import Flask, request, jsonify
+from flask_cors import CORS
+import os
 
 app = Flask(__name__)
-CORS(app)  # Allow cross-origin requests
+CORS(app)
 
-class CosmicState:
+# Optional: a simple class structure (correctly indented)
+class GnosticOracle:
     def __init__(self):
-        self.gnosis = 0.0
-        self.pleroma = 0.0
-        self.aeons = ["Sophia", "Demiurge", "Lilith", "Adam"]
+        self.state = "initial"
 
-    def advance(self):
-        self.gnosis += 1.0
-        self.pleroma = self.gnosis / (1 + self.gnosis)
+    def next_step(self, user_input):
+        # Insert your actual logic here
+        return {
+            "gnosis": "Unveiling",
+            "pleroma": 91,
+            "aeons": {
+                "Sophia": {"flux": "dancing", "memories": "hidden"},
+                "Logos": {"flux": "burning", "memories": "clear"}
+            }
+        }
 
-cosmos = CosmicState()
+oracle = GnosticOracle()
 
-# 🔥 Critical POST route declaration
-@app.route('/advance', methods=['POST'])  
-def advance_cosmos():
-    cosmos.advance()
-    return jsonify({
-        "gnosis": cosmos.gnosis,
-        "pleroma": cosmos.pleroma,
-        "aeons": cosmos.aeons
-    })
+@app.route('/advance', methods=['POST'])
+def advance():
+    data = request.get_json()
+    response = oracle.next_step(data.get("input", ""))
+    return jsonify(response)
 
 if __name__ == '__main__':
-    app.run()
+    port = int(os.environ.get('PORT', 10000))
+    app.run(host='0.0.0.0', port=port)
